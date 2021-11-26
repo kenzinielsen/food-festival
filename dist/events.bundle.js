@@ -9,33 +9,23 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./assets/img/food-table.jpg":
-/*!***********************************!*\
-  !*** ./assets/img/food-table.jpg ***!
-  \***********************************/
-/***/ (() => {
+/***/ "./assets/js/domMethods.js":
+/*!*********************************!*\
+  !*** ./assets/js/domMethods.js ***!
+  \*********************************/
+/***/ ((module) => {
 
-eval("throw new Error(\"Module parse failed: Unexpected character '�' (1:0)\\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\\n(Source code omitted for this binary file)\");\n\n//# sourceURL=webpack://food-festival/./assets/img/food-table.jpg?");
-
-/***/ }),
-
-/***/ "./assets/img/grill.jpg":
-/*!******************************!*\
-  !*** ./assets/img/grill.jpg ***!
-  \******************************/
-/***/ (() => {
-
-eval("throw new Error(\"Module parse failed: Unexpected character '�' (1:0)\\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\\n(Source code omitted for this binary file)\");\n\n//# sourceURL=webpack://food-festival/./assets/img/grill.jpg?");
+eval("function createEl(htmlString, attrs, ...children) {\n    if (typeof htmlString !== \"string\") {\n      throw Error(\"Argument 'htmlString' is required and must be a string\");\n    }\n  \n    const el = document.createElement(htmlString);\n  \n    if (typeof attrs === \"object\") {\n      for (let key in attrs) {\n        if (key.substring(0, 2) === \"on\") {\n          el.addEventListener(key.substring(2).toLowerCase(), attrs[key]);\n        } else if (key === \"style\") {\n          for (let rule in attrs[key]) {\n            el.style[rule] = attrs[key][rule];\n          }\n        } else {\n          el.setAttribute(key, attrs[key]);\n        }\n      }\n    }\n  \n    children.forEach(function(child) {\n      let node;\n  \n      if (child.constructor.name.includes(\"Element\")) {\n        node = child;\n      } else {\n        node = document.createTextNode(child);\n      }\n  \n      el.appendChild(node);\n    });\n  \n    return el;\n  }\n  \n  module.exports = createEl;\n\n//# sourceURL=webpack://food-festival/./assets/js/domMethods.js?");
 
 /***/ }),
 
-/***/ "./assets/js/script.js":
+/***/ "./assets/js/events.js":
 /*!*****************************!*\
-  !*** ./assets/js/script.js ***!
+  !*** ./assets/js/events.js ***!
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("/* provided dependency */ var $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\nconst img1 = __webpack_require__(/*! ../../assets/img/food-table.jpg */ \"./assets/img/food-table.jpg\");\nconst img2 = __webpack_require__(/*! ../../assets/img/grill.jpg */ \"./assets/img/grill.jpg\");\n\n$(document).ready(function() {\n  // First image is hard coded in index.html\n  const carouselSlides = [\n    {\n      title: \"We travel all over the US\",\n      subtitle: \"Check out our schedule!\",\n      img: img1,\n      btnText: \"View Schedule\",\n      btnUrl: \"schedule.html\"\n    },\n    {\n      title: \"Our food is seriously the bomb!\",\n      subtitle: \"What are you waiting for?\",\n      img: img2,\n      btnText: \"Purchase Tickets\",\n      btnUrl: \"tickets.html\"\n    },\n  ];\n  \n  carouselSlides.forEach((slide, i) => {\n    $('.carousel-inner').append(`\n  <div class=\"carousel-item fullscreen-carousel\" style=\"background-image: url('${slide.img}')\">\n    <div class=\"d-flex h-100 align-items-center justify-content-center carousel-caption\">\n        <div class=\"container\">\n          <div class=\"row align-items-center justify-content-center\">\n              <h2 class=\"display-4 mb-2\">${slide.title}</h2>\n          </div>\n          <div class=\"row align-items-center justify-content-center\"> \n            <h3>${slide.subtitle}</h3>\n          </div>\n          <div class=\" mt-4 row align-items-center justify-content-center\"> \n            <a class=\"btn btn-primary\" href=\"${slide.btnUrl}\">\n                ${slide.btnText}\n            </a>\n          </div>\n        </div>\n    </div>\n  </div>`)\n  })\n});\n\n//# sourceURL=webpack://food-festival/./assets/js/script.js?");
+eval("__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\nconst createEl = __webpack_require__(/*! ./domMethods */ \"./assets/js/domMethods.js\");\n\nif (window.location.href.indexOf(\"event\") > -1) {\n  const currentEvent = JSON.parse(localStorage.getItem(\"currentEvent\")) || {\n      title: \"Title Placeholder\",\n      subtitle: \"\",\n      description: \"\"\n  };\n\n  const pageEl = document.querySelector(\"#page\");\n  \n  const containerEl = createEl(\"div\", {class: \"container\"},\n    createEl(\"div\", {class: \"card mb-3\"}, \n      createEl(\"img\", {class: \"card-img-top\", style: \"width: 5px\", src: currentEvent.image || \"https://via.placeholder.com/350x150\"}),\n      createEl(\"div\", {class: \"card-body\"}, \n        createEl(\"h1\", {class: \"card-title\"}, currentEvent.title || \"\"),\n        createEl(\"h2\", {class: \"text-muted\"}, currentEvent.subtitle || \"\"),\n        createEl(\"p\", {class: \"card-text mt-3\"}, currentEvent.description || createLoremIpsum(100)),\n        createEl(\"a\", {class: \"btn btn-primary\", href: \"tickets.html\"}, \"Buy Tickets\")\n      )\n    ),\n    \n  )\n  pageEl.appendChild(containerEl)\n}\n\n//# sourceURL=webpack://food-festival/./assets/js/events.js?");
 
 /***/ }),
 
@@ -142,7 +132,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = __webpack_require__("./assets/js/script.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./assets/js/events.js");
 /******/ 	
 /******/ })()
 ;
